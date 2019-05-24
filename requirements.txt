@@ -43,7 +43,7 @@ pyasn1==0.4.5
 pyasn1-modules==0.2.5
 pytz==2019.1
 PyVCF==0.6.8
-PyYAML==3.13
+PyYAML==5.1
 requests==2.22.0
 rsa==4.0
 six==1.11.0
