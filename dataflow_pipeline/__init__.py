@@ -8,7 +8,6 @@ from apache_beam.options.pipeline_options import PipelineOptions, SetupOptions, 
 from apache_beam.io import ReadStringsFromPubSub, WriteToBigQuery
 
 
-
 if __name__ == "__main__":
 
     logging.getLogger().setLevel(logging.INFO)
@@ -22,7 +21,40 @@ if __name__ == "__main__":
     pipeline_options.view_as(SetupOptions).streaming = True
 
 
-    schema = ""
+    schema = [
+        {
+            "name": "order_id",
+            "type": "STRING"
+        }, {
+            "name": "device_id",
+            "type": "STRING"
+        }, {
+            "name": "timestamp",
+            "type": "TIMESTAMP"
+        }, {
+            "name": "product",
+            "type": "RECORD",
+            "mode": "REPEATED",
+            "fileds": [
+                {
+                    "name": "id",
+                    "type": "STRING"
+                }, {
+                    "name": "name",
+                    "type": "STRING"
+                }, {
+                    "name": "brand",
+                    "type": "STRING"
+                }, {
+                    "name": "price",
+                    "type": "FLOAT"
+                }, {
+                    "name": "quantity",
+                    "type": "INTEGER"
+                }
+            ]
+        }
+    ]
     p = beam.Pipeline(options=pipeline_options)
     messages = (p
                 | "Read messages" >> ReadStringsFromPubSub(topic=args.topic)
