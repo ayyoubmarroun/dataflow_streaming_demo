@@ -18,8 +18,10 @@ class PubSubStreamer(object):
         self.device_id = str(os.getpid())
         self.speed = speed
         products = pd.read_csv(os.path.join(dir_, "products.csv"))
-        self.products = products.filter(["uniq_id", "product_name", "brand", "retail_price"])
+        self.products = products.filter(["uniq_id", "product_name","brand",  "retail_price"])
         self.products.columns = ["id", "name", "brand", "price"]
+        self.products["price"] = self.products["price"][self.products.price.isna()] = 0
+        self.products["brand"] = self.products["brand"][self.products.brand.isna()] = "n/a"
 
     def __call__(self):
         
